@@ -11850,7 +11850,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"assert@npm:2.0.0":
+"assert@npm:2.0.0, assert@npm:^2.0.0":
   version: 2.0.0
   resolution: "assert@npm:2.0.0"
   dependencies:
@@ -19289,6 +19289,7 @@ __metadata:
     angular-route: 1.8.2
     angular-sanitize: 1.8.2
     app: "link:./public/app"
+    assert: ^2.0.0
     autoprefixer: 10.2.6
     axios: 0.21.2
     babel-jest: 27.4.2

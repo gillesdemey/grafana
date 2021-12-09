@@ -14,7 +14,6 @@ const OverviewFlow = ({ query }: FlowProps) => {
 
   useLayoutEffect(() => {
     const [nodes, edges] = toElements(query);
-
     setElements(layout([...nodes, ...edges], 'RL'));
   }, [query]);
 

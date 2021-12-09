@@ -32,7 +32,7 @@ import { PanelModel } from 'app/features/dashboard/state/PanelModel';
 import { DashboardModel } from 'app/features/dashboard/state/DashboardModel';
 import { OperationRowHelp } from 'app/core/components/QueryOperationRow/OperationRowHelp';
 import { RowActionComponents } from './QueryActionComponent';
-import Flow from 'app/features/explore/Flowmetheus/Flow';
+import FlowMetheus from 'app/features/explore/Flowmetheus/Flow';
 
 interface Props<TQuery extends DataQuery> {
   data: PanelData;
@@ -410,6 +410,9 @@ export class QueryEditorRow<TQuery extends DataQuery> extends PureComponent<Prop
     const editor = this.renderPluginEditor();
     const DatasourceCheatsheet = datasource.components?.QueryEditorHelp;
 
+    // @ts-ignore
+    const queryText = this.props.query.expr;
+
     return (
       <div aria-label={selectors.components.QueryEditorRows.rows}>
         <QueryOperationRow
@@ -432,7 +435,7 @@ export class QueryEditorRow<TQuery extends DataQuery> extends PureComponent<Prop
               )}
               {showingFlowmetheus && (
                 <OperationRowHelp style={{ height: 300, width: '100%' }}>
-                  <Flow query={`sum by(cpu) rate(node_cpu_seconds_total{mode="user"}[1m])`} />
+                  <FlowMetheus query={queryText} />
                 </OperationRowHelp>
               )}
               {editor}

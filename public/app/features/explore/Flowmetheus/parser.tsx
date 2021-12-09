@@ -1,4 +1,6 @@
 // TODO: eventually will need collection of trees rather than a single tree (if a new unattached node is made
+
+import assert from 'assert';
 import {
   AggregateExpr,
   AggregateModifier,
@@ -164,10 +166,7 @@ export function parseQuery(query: string): FNode | null {
 	}
   */
   function convertFunctionCallArgs(node: SyntaxNode): FNode[] {
-    if (node.type.id !== FunctionCallArgs) {
-      throw new TypeError('Node Type is not FunctionCallArgs');
-    }
-
+    assert(node.type.id === FunctionCallArgs);
     // we can't use findAll because if there are nested expressions, we'd end up getting all of the nested expression nodes too
     // TODO: probably a more generic way we can be unrolling this though
     const innerArgs = node.getChild(FunctionCallArgs);
@@ -217,9 +216,18 @@ export function parseQuery(query: string): FNode | null {
   // Expr !pow Pow    BinModifiers Expr
   function convertBinaryExpression(node: SyntaxNode): BinaryExpressionNode {
     const newNode = new BinaryExpressionNode(newId());
-    newNode.lhs = convertNode(node.firstChild!);
-    newNode.rhs = convertNode(node.lastChild!);
-    newNode.op = nodeToExpression(node.firstChild!.nextSibling!);
+    const op = nodeToExpression(node.firstChild!.nextSibling!);
+    if (op !== '') {
+      newNode.op = op;
+    }
+    // a binary node isn't guaranteed to have two exprs - this is because the lezer parser is very eager and parses a binary expression even if the query isn't fully written
+    const exprs = node.getChildren(Expr);
+    if (exprs.length > 0) {
+      newNode.lhs = convertNode(exprs[0]);
+    }
+    if (exprs.length > 1) {
+      newNode.rhs = convertNode(exprs[1]);
+    }
     newNode.modifiers = node.getChild(BinModifiers) ? nodeToExpression(node.getChild(BinModifiers)!) : '';
     return newNode;
   }
@@ -324,14 +332,20 @@ export function parseQuery(query: string): FNode | null {
     }
 
     const matches: SyntaxNode[] = [];
-    const cursor = node.cursor;
 
-    // find all nodes that match type
-    do {
-      if (cursor.node.type.id === type) {
-        matches.push(cursor.node);
+    function find(node: SyntaxNode) {
+      var currentChild = node.firstChild;
+      while (currentChild) {
+        if (currentChild.type.id === type) {
+          matches.push(currentChild);
+        }
+        find(currentChild);
+        currentChild = currentChild.nextSibling;
       }
-    } while (cursor.next());
+    }
+
+    find(node);
+
     return matches;
   }
 }

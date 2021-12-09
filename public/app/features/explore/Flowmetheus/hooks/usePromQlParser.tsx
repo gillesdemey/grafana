@@ -59,8 +59,8 @@ function addNode(id: number, label: ReactNode, type: NodeTypes, elements: Elemen
     id: String(id),
     data: { label },
     position: { x: 100, y: (id + 1) * 100 },
-    sourcePosition: Position.Top,
-    targetPosition: Position.Bottom,
+    sourcePosition: Position.Left,
+    targetPosition: Position.Right,
   });
 }
 
