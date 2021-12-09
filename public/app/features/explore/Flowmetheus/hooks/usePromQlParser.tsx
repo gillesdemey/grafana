@@ -57,7 +57,6 @@ export function toElements(query: string): [Elements<ElementData>, Edge[]] {
 function addNode(id: number, label: ReactNode, type: NodeTypes, elements: Elements): void {
   elements.push({
     id: String(id),
-    type: id === 0 ? 'input' : '',
     data: { label },
     position: { x: 100, y: (id + 1) * 100 },
     sourcePosition: Position.Left,
