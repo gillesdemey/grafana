@@ -26,8 +26,6 @@ const AutoLayout = ({ direction }: AutoLayoutProps) => {
       return;
     }
 
-    console.log('layouting!');
-
     const layoutedElements = layout(elements, direction);
     setElements(layoutedElements);
 
