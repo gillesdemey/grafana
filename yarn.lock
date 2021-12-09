@@ -19383,6 +19383,7 @@ __metadata:
     postcss-scss: 4.0.2
     prettier: 2.2.1
     prismjs: 1.25.0
+    process: ^0.11.10
     prop-types: 15.7.2
     raw-loader: 4.0.2
     rc-cascader: 1.5.0
