@@ -9,6 +9,7 @@ function layout(elements: Elements, direction: Direction = 'RL') {
 
   const getLayoutedElements = () => {
     const isHorizontal = direction === 'LR' || direction === 'RL';
+    const isInverted = direction.startsWith('R') || direction.startsWith('B');
 
     dagreGraph.setGraph({
       rankdir: direction,
@@ -43,9 +44,9 @@ function layout(elements: Elements, direction: Direction = 'RL') {
 
         const nodeWithPosition = dagreGraph.node(el.id);
         // @ts-ignore
-        el.targetPosition = isHorizontal ? 'left' : 'top';
+        el.targetPosition = isHorizontal ? (isInverted ? 'right' : 'left') : isInverted ? 'bottom' : 'top';
         // @ts-ignore
-        el.sourcePosition = isHorizontal ? 'right' : 'bottom';
+        el.sourcePosition = isHorizontal ? (isInverted ? 'left' : 'right') : isInverted ? 'top' : 'bottom';
 
         // unfortunately we need this little hack to pass a slightly different position
         // to notify react flow about the change. Moreover we are shifting the dagre node position
