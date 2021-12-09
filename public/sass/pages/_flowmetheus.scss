@@ -1,0 +1,38 @@
+.react-flow .react-flow__node {
+  width: auto;
+}
+
+.react-flow {
+  .react-flow__node {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+
+    color: hsl(240deg 19% 83%);
+    border: solid 2px hsl(220deg 12% 15%);
+    background: hsl(220deg 12% 15%);
+
+    &.selected {
+      border-color: hsl(220deg 100% 72%);
+    }
+  }
+
+  .react-flow__edge-path {
+    stroke: hsl(20deg 97% 61%);
+  }
+
+  .react-flow__arrowhead > polyline {
+    stroke: hsl(20deg 97% 61%);
+    fill: hsl(20deg 97% 61%);
+  }
+
+  .react-flow__handle {
+    background: hsl(220deg 12% 15%) !important;
+    border-color: hsl(20deg 97% 61%);
+  }
+
+  .react-flow__node.selected .react-flow__handle {
+    border-color: hsl(220deg 100% 72%) !important;
+  }
+}

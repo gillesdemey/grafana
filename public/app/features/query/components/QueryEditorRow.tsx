@@ -32,6 +32,7 @@ import { PanelModel } from 'app/features/dashboard/state/PanelModel';
 import { DashboardModel } from 'app/features/dashboard/state/DashboardModel';
 import { OperationRowHelp } from 'app/core/components/QueryOperationRow/OperationRowHelp';
 import { RowActionComponents } from './QueryActionComponent';
+import Flow from 'app/features/explore/Flowmetheus/Flow';
 
 interface Props<TQuery extends DataQuery> {
   data: PanelData;
@@ -60,6 +61,7 @@ interface State<TQuery extends DataQuery> {
   data?: PanelData;
   isOpen?: boolean;
   showingHelp: boolean;
+  showingFlowmetheus: boolean;
 }
 
 export class QueryEditorRow<TQuery extends DataQuery> extends PureComponent<Props<TQuery>, State<TQuery>> {
@@ -73,6 +75,7 @@ export class QueryEditorRow<TQuery extends DataQuery> extends PureComponent<Prop
     data: undefined,
     isOpen: true,
     showingHelp: false,
+    showingFlowmetheus: false,
   };
 
   componentDidMount() {
@@ -283,6 +286,12 @@ export class QueryEditorRow<TQuery extends DataQuery> extends PureComponent<Prop
     }));
   };
 
+  onToggleFlowmetheus = () => {
+    this.setState((state) => ({
+      showingFlowmetheus: !state.showingFlowmetheus,
+    }));
+  };
+
   onClickExample = (query: TQuery) => {
     this.props.onChange({
       ...query,
@@ -321,13 +330,19 @@ export class QueryEditorRow<TQuery extends DataQuery> extends PureComponent<Prop
 
   renderActions = (props: QueryOperationRowRenderProps) => {
     const { query, hideDisableQuery = false } = this.props;
-    const { hasTextEditMode, datasource, showingHelp } = this.state;
+    const { hasTextEditMode, datasource, showingHelp, showingFlowmetheus } = this.state;
     const isDisabled = query.hide;
 
     const hasEditorHelp = datasource?.components?.QueryEditorHelp;
 
     return (
       <HorizontalGroup width="auto">
+        <QueryOperationAction
+          title="Explain query"
+          icon="share-alt"
+          onClick={this.onToggleFlowmetheus}
+          active={showingFlowmetheus}
+        />
         {hasEditorHelp && (
           <QueryOperationAction
             title="Toggle data source help"
@@ -380,7 +395,7 @@ export class QueryEditorRow<TQuery extends DataQuery> extends PureComponent<Prop
 
   render() {
     const { query, id, index, visualization } = this.props;
-    const { datasource, showingHelp } = this.state;
+    const { datasource, showingHelp, showingFlowmetheus } = this.state;
     const isDisabled = query.hide;
 
     const rowClasses = classNames('query-editor-row', {
@@ -413,6 +428,11 @@ export class QueryEditorRow<TQuery extends DataQuery> extends PureComponent<Prop
                     onClickExample={(query) => this.onClickExample(query)}
                     datasource={datasource}
                   />
+                </OperationRowHelp>
+              )}
+              {showingFlowmetheus && (
+                <OperationRowHelp style={{ height: 300, width: '100%' }}>
+                  <Flow query={`sum by(cpu) rate(node_cpu_seconds_total{mode="user"}[1m])`} />
                 </OperationRowHelp>
               )}
               {editor}
