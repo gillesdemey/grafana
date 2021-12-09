@@ -19,7 +19,7 @@ const OverviewFlow = ({ query }: FlowProps) => {
 
   return (
     <>
-      <ReactFlow elements={elements} snapToGrid={false} snapGrid={[15, 15]}></ReactFlow>
+      <ReactFlow elements={elements}></ReactFlow>
     </>
   );
 };
