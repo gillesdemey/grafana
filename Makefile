@@ -97,7 +97,7 @@ shellcheck: $(SH_FILES) ## Run checks for shell scripts.
 
 build-docker-full: ## Build Docker image for development.
 	@echo "build docker container"
-	docker build --tag grafana/grafana:dev .
+	docker build --platform linux/amd64 --tag grafana/grafana:dev .
 
 ##@ Services
 
