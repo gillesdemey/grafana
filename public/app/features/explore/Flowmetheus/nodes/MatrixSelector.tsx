@@ -1,8 +1,9 @@
 import React, { ReactNode } from 'react';
 
 import { FNode, NodeTypes } from './Node';
-import { Icon, NodeBody, NodeContent, Title } from '../components/Elements';
+import { NodeBody, NodeContent, Title } from '../components/Elements';
 import { Matcher, Matchers } from '../components/Matchers';
+import { Icon } from '@grafana/ui';
 
 interface MatcherProps {
   label: string;
@@ -22,7 +23,8 @@ class MatrixSelectorNode extends FNode {
   asReactNode(): ReactNode {
     return (
       <>
-        <Icon>☉</Icon>
+        {/* @ts-ignore */}
+        <Icon name="crosshair" />
         <NodeBody>
           <Title>{this.identifier}</Title>
           <NodeContent>

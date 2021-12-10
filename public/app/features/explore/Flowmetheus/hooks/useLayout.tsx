@@ -15,6 +15,7 @@ function layout(elements: Elements, direction: Direction = 'RL') {
       rankdir: direction,
       marginx: 50,
       marginy: 50,
+      edgesep: 25,
     });
 
     elements.forEach((el) => {

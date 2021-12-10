@@ -339,7 +339,7 @@ export class QueryEditorRow<TQuery extends DataQuery> extends PureComponent<Prop
       <HorizontalGroup width="auto">
         <QueryOperationAction
           title="Explain query"
-          icon="share-alt"
+          icon="code-branch"
           onClick={this.onToggleFlowmetheus}
           active={showingFlowmetheus}
         />

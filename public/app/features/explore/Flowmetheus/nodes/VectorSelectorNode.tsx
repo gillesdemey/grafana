@@ -1,5 +1,6 @@
+import { Icon } from '@grafana/ui';
 import React, { ReactNode } from 'react';
-import { Icon, NodeBody, NodeContent, Title } from '../components/Elements';
+import { NodeBody, NodeContent, Title } from '../components/Elements';
 import { Matcher, Matchers } from '../components/Matchers';
 import { FNode, NodeTypes } from './Node';
 
@@ -20,7 +21,8 @@ export class VectorSelectorNode extends FNode {
   asReactNode(): ReactNode {
     return (
       <>
-        <Icon>☉</Icon>
+        {/* @ts-ignore */}
+        <Icon name="crosshair" />
         <NodeBody>
           <Title>{this.identifier}</Title>
           <NodeContent>

@@ -1,8 +1,9 @@
 import React, { ReactNode } from 'react';
+import { Icon } from '@grafana/ui';
 
 import { FNode, NodeTypes } from './Node';
 import { ExpressionNode } from './ExpressionNode';
-import { Icon, InfoIcon, NodeBody, NodeContent, Title } from '../components/Elements';
+import { InfoIcon, NodeBody, NodeContent, Title } from '../components/Elements';
 import { Matcher, Matchers } from '../components/Matchers';
 
 export class AggregateExpressionNode extends ExpressionNode {
@@ -19,7 +20,8 @@ export class AggregateExpressionNode extends ExpressionNode {
   asReactNode(): ReactNode {
     return (
       <>
-        <Icon>∑</Icon>
+        {/* @ts-ignore */}
+        <Icon name="pathfinder-unite" />
         <NodeBody>
           <Title>
             {this.op}

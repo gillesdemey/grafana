@@ -70,7 +70,7 @@ function addEdge(source: string, target: string, edges: Edge[]) {
     source: String(source),
     target: String(target),
     animated: true,
-    type: 'smoothstep',
+    type: 'default',
     arrowHeadType: ArrowHeadType.ArrowClosed,
     style: { strokeWidth: 2 },
   });

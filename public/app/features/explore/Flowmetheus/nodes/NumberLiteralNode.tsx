@@ -1,5 +1,6 @@
+import { Icon } from '@grafana/ui';
 import React, { ReactNode } from 'react';
-import { Icon, NodeBody, Title } from '../components/Elements';
+import { NodeBody, Title } from '../components/Elements';
 
 import { FNode, NodeTypes } from './Node';
 
@@ -13,7 +14,8 @@ export class NumberLiteralNode extends FNode {
   asReactNode(): ReactNode {
     return (
       <>
-        <Icon>🎲</Icon>
+        {/* @ts-ignore */}
+        <Icon name="dice-three" />
         <NodeBody>
           <Title>{this.value}</Title>
         </NodeBody>

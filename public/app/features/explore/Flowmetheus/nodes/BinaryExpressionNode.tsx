@@ -1,3 +1,4 @@
+import { Icon } from '@grafana/ui';
 import React, { ReactNode } from 'react';
 import { FNode, NodeTypes } from './Node';
 
@@ -14,7 +15,10 @@ export class BinaryExpressionNode extends FNode {
   asReactNode(): ReactNode {
     return (
       <div>
-        {this.op} {this.modifiers}
+        <Icon name="calculator-alt" style={{ fill: '#FF5286' }} />
+        <span style={{ marginLeft: '0.5rem' }}>
+          {this.op} {this.modifiers}
+        </span>
       </div>
     );
   }

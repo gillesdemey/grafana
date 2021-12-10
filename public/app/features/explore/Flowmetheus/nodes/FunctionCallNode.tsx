@@ -1,5 +1,6 @@
+import { Icon } from '@grafana/ui';
 import React, { ReactNode } from 'react';
-import { Icon, InfoIcon, NodeBody, Title } from '../components/Elements';
+import { InfoIcon, NodeBody, Title } from '../components/Elements';
 
 import { FNode, NodeTypes } from './Node';
 
@@ -14,7 +15,8 @@ export class FunctionCallNode extends FNode {
   asReactNode(): ReactNode {
     return (
       <>
-        <Icon>ƒ</Icon>
+        {/* @ts-ignore */}
+        <Icon name="brackets-curly" style={{ fill: '#6E9FFF' }} />
         <NodeBody>
           <Title>
             {this.identifier} <InfoIcon />
