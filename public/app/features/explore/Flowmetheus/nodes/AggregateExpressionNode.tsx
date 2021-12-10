@@ -27,7 +27,16 @@ export class AggregateExpressionNode extends ExpressionNode {
             {this.op}
             {this.by && ' by '}
             {this.without && ' without '}
-            <InfoIcon />
+            <button
+              onClick={() =>
+                window.open(
+                  'https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators',
+                  '_blank'
+                )
+              }
+            >
+              <InfoIcon />
+            </button>
           </Title>
           <NodeContent>
             <Matchers style={{ display: 'inline' }}>

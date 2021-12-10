@@ -35,4 +35,11 @@
   .react-flow__node.selected .react-flow__handle {
     border-color: hsl(220deg 100% 72%) !important;
   }
+
+  .react-flow__node button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+  }
 }

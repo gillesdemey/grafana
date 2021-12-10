@@ -1,6 +1,7 @@
 import { Icon } from '@grafana/ui';
 import React, { ReactNode } from 'react';
 import { FNode, NodeTypes } from './Node';
+import { InfoIcon } from '../components/Elements';
 
 export class BinaryExpressionNode extends FNode {
   lhs?: FNode;
@@ -19,6 +20,13 @@ export class BinaryExpressionNode extends FNode {
         <span style={{ marginLeft: '0.5rem' }}>
           {this.op ?? '???'} {this.modifiers}
         </span>
+        <button
+          onClick={() =>
+            window.open('https://prometheus.io/docs/prometheus/latest/querying/operators/#binary-operators', '_blank')
+          }
+        >
+          <InfoIcon />
+        </button>
       </div>
     );
   }
