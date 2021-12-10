@@ -43,6 +43,10 @@ abstract class FNode {
   // TODO: consider moving method out of node class to separate data from view
   abstract asReactNode(): ReactNode;
   abstract getChildren(): FNode[];
+
+  getWarnings(): string[] {
+    return [];
+  }
 }
 
 export { FNode };

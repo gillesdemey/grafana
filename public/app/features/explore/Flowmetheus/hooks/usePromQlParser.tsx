@@ -4,7 +4,7 @@ import { Tree, TreeCursor } from 'lezer-tree';
 import { ArrowHeadType, Edge, Elements, Position } from 'react-flow-renderer';
 
 import { parseQuery } from '../parser';
-import { FNode, NodeTypes } from '../nodes/Node';
+import { FNode } from '../nodes/Node';
 
 export function usePromQlParser(query: string): [TreeCursor, Tree] {
   const tree = parser.parse(query);
@@ -18,6 +18,28 @@ interface ElementData {
 }
 
 export function toElements(query: string): [Elements<ElementData>, Edge[]] {
+  try {
+    return toElementsInner(query);
+  } catch (e) {
+    console.error('could not convert elements: ' + e);
+    return [
+      [
+        {
+          id: 'unknown',
+          data: {
+            label: 'Could not display tree for ' + query,
+          },
+          position: { x: 100, y: 100 },
+          sourcePosition: Position.Top,
+          targetPosition: Position.Bottom,
+        },
+      ],
+      [],
+    ];
+  }
+}
+
+export function toElementsInner(query: string): [Elements<ElementData>, Edge[]] {
   const elements: Elements = [];
   const edges: Edge[] = [];
 
@@ -27,38 +49,21 @@ export function toElements(query: string): [Elements<ElementData>, Edge[]] {
   }
 
   // some fun with positioning, 3p libs would do a better job though
-  const levels: FNode[][] = [];
-  addLevels(0, root);
-  function addLevels(level: number, node: FNode) {
-    if (!levels[level]) {
-      levels[level] = [];
-    }
-    levels[level].push(node);
-    node.getChildren().forEach((child) => addLevels(level + 1, child));
-  }
-
-  for (var i = 0; i < levels.length; i++) {
-    const nodes = levels[i];
-    for (var j = 0; j < nodes.length; j++) {
-      addNode(nodes[j].id, nodes[j].asReactNode(), nodes[j].type, elements);
-    }
-  }
-
   const nodes = getAllNodes(root);
 
   nodes.forEach((node) => {
-    //addNode(node.id, node.asReactNode(), node.type, elements)
+    addNode(node, elements);
     node.getChildren().forEach((child) => addEdge(String(child.id), String(node.id), edges));
   });
 
   return [elements, edges];
 }
 
-function addNode(id: number, label: ReactNode, type: NodeTypes, elements: Elements): void {
+function addNode(node: FNode, elements: Elements): void {
   elements.push({
-    id: String(id),
-    data: { label },
-    position: { x: 100, y: (id + 1) * 100 },
+    id: String(node.id),
+    data: { label: node.asReactNode() },
+    position: { x: 100, y: (node.id + 1) * 100 },
     sourcePosition: Position.Left,
     targetPosition: Position.Right,
   });
