@@ -12,7 +12,7 @@ export class StringLiteralNode extends FNode {
   asReactNode(): ReactNode {
     return (
       <div>
-        <div>{this.val ? '"' + this.val + '"' : '???'}</div>
+        <div>{this.val ?? '???'}</div>
       </div>
     );
   }

@@ -32,7 +32,7 @@ class MatrixSelectorNode extends FNode {
               {this.matchers.map(({ label, operator, value }) => (
                 <Matcher key={label + operator + value} label={label} comparator={operator} value={value} />
               ))}
-              <Matcher value={this.duration} />
+              <Matcher value={this.duration && this.duration !== '' ? this.duration : '<duration>'} />
             </Matchers>
           </NodeContent>
         </NodeBody>

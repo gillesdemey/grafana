@@ -17,7 +17,7 @@ export class BinaryExpressionNode extends FNode {
       <div>
         <Icon name="calculator-alt" style={{ fill: '#FF5286' }} />
         <span style={{ marginLeft: '0.5rem' }}>
-          {this.op} {this.modifiers}
+          {this.op ?? '???'} {this.modifiers}
         </span>
       </div>
     );
