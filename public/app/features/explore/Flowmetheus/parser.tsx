@@ -194,9 +194,7 @@ export function parseQuery(query: string): FNode | null {
     if (matchers) {
       const labelNames = findAll(matchers, LabelName).map(nodeToExpression);
       const matchOperation = findAll(matchers, MatchOp).map(nodeToExpression);
-      const labelValues = findAll(matchers, StringLiteral)
-        .map(nodeToExpression)
-        .map((expr) => JSON.parse(expr)); // for some reason these are JSON encoded
+      const labelValues = findAll(matchers, StringLiteral).map(nodeToExpression); // this includes the outer quotes if they are present
 
       newNode.matchers = zip<string, string, string>(labelNames, matchOperation, labelValues).map(
         ([label, operator, value]) => ({
@@ -207,7 +205,16 @@ export function parseQuery(query: string): FNode | null {
       );
     }
 
-    newNode.duration = nodeToExpression(node.getChild(Duration)!);
+    if (node.getChild(Duration)) {
+      newNode.duration = nodeToExpression(node.getChild(Duration)!);
+    } else if (node.firstChild && node.firstChild.nextSibling) {
+      //if there are more than one node, let's use the remaining letters for this node as the duration
+      //we could just skip this step and just display an empty duration instead
+      var duration = query.substring(node.firstChild.nextSibling.from, node.to);
+      if (duration.endsWith(']') || duration === '') {
+        duration = duration.substring(0, duration.length - 1);
+      }
+    }
 
     return newNode;
   }
@@ -248,9 +255,7 @@ export function parseQuery(query: string): FNode | null {
 
     const labelNames = findAll(matchers, LabelName).map(nodeToExpression);
     const matchOperation = findAll(matchers, MatchOp).map(nodeToExpression);
-    const labelValues = findAll(matchers, StringLiteral)
-      .map(nodeToExpression)
-      .map((expr) => JSON.parse(expr)); // for some reason these are JSON encoded
+    const labelValues = findAll(matchers, StringLiteral).map(nodeToExpression); // this includes the outer quotes if they are present
 
     newNode.matchers = zip<string, string, string>(labelNames, matchOperation, labelValues).map(
       ([label, operator, value]) => ({
@@ -343,9 +348,7 @@ export function parseQuery(query: string): FNode | null {
         currentChild = currentChild.nextSibling;
       }
     }
-
     find(node);
-
     return matches;
   }
 }
