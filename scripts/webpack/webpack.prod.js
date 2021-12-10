@@ -7,6 +7,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { DefinePlugin } = require('webpack');
 
 module.exports = (env = {}) =>
   merge(common, {
@@ -77,6 +78,11 @@ module.exports = (env = {}) =>
         inject: false,
         excludeChunks: ['manifest', 'dark', 'light'],
         chunksSortMode: 'none',
+      }),
+      new DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify('production'),
+        },
       }),
       function () {
         this.hooks.done.tap('Done', function (stats) {
