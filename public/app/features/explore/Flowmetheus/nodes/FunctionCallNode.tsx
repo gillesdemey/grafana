@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import { InfoIcon, NodeBody, Title } from '../components/Elements';
 
 import { FNode, NodeTypes } from './Node';
+import { VectorSelectorNode } from './VectorSelectorNode';
 
 export class FunctionCallNode extends FNode {
   identifier?: string;
@@ -48,5 +49,23 @@ export class FunctionCallNode extends FNode {
 
   getChildren(): FNode[] {
     return this.args;
+  }
+
+  getWarnings(): string[] {
+    if (
+      this.identifier &&
+      (this.identifier === 'rate' || this.identifier === 'increase') &&
+      this.args.length > 0 &&
+      this.args[0].type === NodeTypes.VectorSelector
+    ) {
+      return [
+        'The input for ' +
+          this.identifier +
+          ' should be a metric with a time range, did you mean to write rate(' +
+          (this.args[0] as VectorSelectorNode).identifier +
+          '{...}[1m])?',
+      ];
+    }
+    return [];
   }
 }

@@ -40,6 +40,18 @@
     background: none;
     border: none;
     cursor: pointer;
+    display: inline;
+  }
+}
+
+.react-flow__node {
+  .node-warnings {
     display: block;
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 10px;
+    min-width: 300px;
+    color: yellow;
+    border: 1px yellow;
   }
 }

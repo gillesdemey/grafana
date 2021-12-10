@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { parser } from 'lezer-promql';
 import { Tree, TreeCursor } from 'lezer-tree';
 import { ArrowHeadType, Edge, Elements, Position } from 'react-flow-renderer';
@@ -60,12 +60,28 @@ export function toElementsInner(query: string): [Elements<ElementData>, Edge[]] 
 }
 
 function addNode(node: FNode, elements: Elements): void {
+  var element = node.asReactNode();
+  var style = {};
+  if (node.getWarnings().length !== 0) {
+    style = { borderTop: '5px solid #fcba03' };
+    element = (
+      <>
+        <div className="node-warnings">
+          {node.getWarnings().map((warning) => (
+            <span key={warning}>{warning}</span>
+          ))}
+        </div>
+        {element}
+      </>
+    );
+  }
   elements.push({
     id: String(node.id),
-    data: { label: node.asReactNode() },
+    data: { label: element },
     position: { x: 100, y: (node.id + 1) * 100 },
     sourcePosition: Position.Left,
     targetPosition: Position.Right,
+    style: style,
   });
 }
 
